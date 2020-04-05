@@ -71,6 +71,10 @@ async function main() {
         } catch (e) { }
         writeFileSync(output, JSON.stringify(returnValue));
     }
+
+    if (!returnValue.ok) {
+        exit(1);
+    }
 }
 
 if (!module.parent) {
