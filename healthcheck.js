@@ -44,7 +44,7 @@ async function main() {
 
     const returnValue = {
         ok: (Math.abs(currentMachineTimestamp - latestBlockTimestamp)) < 5 * 60, // the health check should fail if 5 minutes
-        blockNumber: parseInt(latestBlock.result.number),
+        blockNumber: parseInt(latestBlock && latestBlock.result && latestBlock.result.number || "0"),
         latestBlockTimestamp,
         currentMachineTimestamp,
         timeDriftInSeconds: currentMachineTimestamp - latestBlockTimestamp,
