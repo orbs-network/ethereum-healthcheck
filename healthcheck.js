@@ -1,6 +1,9 @@
+#!/usr/bin/env node
+
 const fetch = require("node-fetch");
 const { writeFileSync, mkdirSync } = require("fs");
 const { dirname } = require("path");
+const { exit } = require("process");
 
 async function post(endpoint, data) {
     const result = await fetch(endpoint, {
@@ -26,6 +29,11 @@ async function getEthSyncing(endpoint) {
 }
 
 async function main() {
+    if (process.argv.length < 3) {
+        console.log("USAGE: ethereum-healthcheck http://localhost:8545 output.json")
+        exit(1);
+    }
+
     const [ endpoint, output ] = process.argv.slice(2);
 
     // Check if ethereum is synced
