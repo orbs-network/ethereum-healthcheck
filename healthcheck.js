@@ -28,15 +28,7 @@ async function getEthSyncing(endpoint) {
     return post(endpoint, {"method":"eth_syncing","params":[],"id":1,"jsonrpc":"2.0"});
 }
 
-async function main() {
-    if (process.argv.length < 3) {
-        console.log("USAGE: ethereum-healthcheck http://localhost:8545 output.json")
-        exit(1);
-    }
-
-    const [ endpoint, output ] = process.argv.slice(2);
-
-    // Check if ethereum is synced
+async function getValue(endpoint) {
     const ethSyncing = await getEthSyncing(endpoint);
     const latestBlock = await getLatestBlockHeaders(endpoint);
     const latestBlockTimestamp = latestBlock.result && parseInt(latestBlock.result.timestamp);
@@ -63,6 +55,20 @@ async function main() {
         }
     }
 
+
+    return returnValue;
+}
+
+async function main() {
+    if (process.argv.length < 3) {
+        console.log("USAGE: ethereum-healthcheck http://localhost:8545 output.json")
+        exit(1);
+    }
+
+    const [ endpoint, output ] = process.argv.slice(2);
+
+    // Check if ethereum is synced
+    const returnValue = await getValue(endpoint, output);
     console.log(JSON.stringify(returnValue));
 
     if (output) {
@@ -79,4 +85,8 @@ async function main() {
 
 if (!module.parent) {
     main();
+} else {
+    module.exports = {
+        getValue,
+    }
 }

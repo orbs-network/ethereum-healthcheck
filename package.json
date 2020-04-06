@@ -12,6 +12,7 @@
     "node-fetch": "^2.6.0"
   },
   "bin": {
-    "ethereum-healthcheck": "./healthcheck.js"
+    "ethereum-healthcheck": "./healthcheck.js",
+    "ethereum-healthcheck-server": "./server.js"
   }
 }
